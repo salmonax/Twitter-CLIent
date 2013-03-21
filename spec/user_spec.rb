@@ -1,3 +1,5 @@
+#coding: utf-8
+
 require 'spec_helper'
 
 describe User do
@@ -9,16 +11,36 @@ describe User do
     to_return(:body => "oauth_token=at&oauth_token_secret=as&screen_name=sn")}
 
 
-  let(:settings_stub) { stub_request(:get, "https://api.twitter.com/1.1/account/settings.json") }#.
-          #to_return(:status => 200, :body => "", :headers => {}) }
+  let(:settings_stub) { stub_request(:get, "https://api.twitter.com/1.1/account/settings.json").
+          to_return(:status => 200, :body => VALID_SETTINGS_RESPONSE, :headers => {}) }
 
-  context '#access_token' do
-    it "returns the user's access token object" do
+  context 'attr_readers' do
+    it "returns the user's access token object with #access_token" do
       init_stub
       access_stub
       user = User.new
       user.authorize!('Junk')
       user.access_token.should be_an_instance_of OAuth::AccessToken 
+    end
+
+    it "returns the user's screen name with #screen_name" do
+      init_stub
+      access_stub
+      settings_stub
+      user = User.new
+      user.authorize!('More junk')
+      user.settings!
+      user.screen_name.should eq 'DeedleTweep' 
+    end
+
+    it "returns the user's language pref" do
+      init_stub
+      access_stub
+      settings_stub
+      user = User.new
+      user.authorize!('More junk')
+      user.settings!
+      user.language.should eq 'English'
     end
   end
 
@@ -55,14 +77,14 @@ describe User do
     end  
   end
 
-  context '#settings' do
-    it 'stores the settings attributes in the user object' do
+  context '#settings!' do
+    it 'GETs a request for user account settings' do
       init_stub
       access_stub
       stub = settings_stub
       user = User.new
       user.authorize!('ASDASDSAD')
-      user.settings   
+      user.settings!  
       stub.should have_been_requested
     end
   end
