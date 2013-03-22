@@ -12,7 +12,7 @@ describe Tweet do
   let(:language_code) {LANG_CODES[language]}
    let(:request_stub) {stub_request(:get, "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20google.translate%20where%20q%3D%22#{encoded_message}%22%20and%20target%3D%22#{language_code}%22%3B&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys").
      to_return(:status => 200, :body => VALID_TRANSLATION_RESPONSE, :headers => {})}
-      
+
   context '#initialize' do
     it 'initializes with text as an argument' do
       tweet = Tweet.new(valid_text)
@@ -54,7 +54,8 @@ describe Tweet do
     it 'translates the message to the language passed in the argument' do
       request_stub
       tweet = Tweet.new(message)
-      tweet.translate_to(language).should eq 'manoj tra la akvo'
+      tweet.translate_to(language)
+      tweet.text.should eq 'manoj tra la akvo'
     end
   end
 end

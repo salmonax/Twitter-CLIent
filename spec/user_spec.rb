@@ -88,4 +88,17 @@ describe User do
       stub.should have_been_requested
     end
   end
+
+  context '#followers' do
+    it "returns the user's followers as an array of screen names" do
+      init_stub
+      access_stub
+      stub = settings_stub
+      user = User.new
+      user.authorize!('ASDASDSAD')
+      user.settings!  
+      user.followers('samonakuba').should eq ["DeedleTweep", "Evan_Bass", "SocialInSanFran", "TecnoentuMano", "The_ITPro", "BuyMyTronics", "sgtklay", "RedlineTireCo", "y_tani", "meganbeing", "gerilash", "citytheatresac", "SacCoworking", "evogler", "marmari9", "iamthepauline", "TheBusyBrain", "dcrblogs", "brandondonaghy", "stephenfry"] 
+
+    end
+  end 
 end

@@ -20,6 +20,11 @@ LANGUAGES = {"fr"=>"French", "en"=>"English", "ar"=>"Arabic", "ja"=>"Japanese", 
     @access_token.post("https://api.twitter.com/1.1/statuses/update.json", {:status => tweet.text})
   end
 
+  def followers(screen_name=@screen_name)
+    response = access_token.get("https://api.twitter.com/1.1/followers/list.json?cursor=-1&screen_name=#{screen_name}&skip_status=true&include_user_entities=false")
+    JSON.parse(response.body)['users'].map { |user| user['screen_name'] }
+  end  
+
   def settings!
     settings_response = @access_token.get("https://api.twitter.com/1.1/account/settings.json")
     if settings_response.body

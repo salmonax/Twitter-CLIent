@@ -6,8 +6,6 @@ def show_keys(hash,indent='')
     if hash[key].class == Hash
       puts "#{indent} #{key} =>"
       show_keys(hash[key],' '*(indent.length+3))
-    elsif hash[key].class == Array
-      puts "#{indent} #{hash[key].join("\n")}"
     else
       puts "#{indent} #{key} => #{hash[key]}"
     end

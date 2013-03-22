@@ -42,8 +42,10 @@ def list(words)
   when 'my settings'
     puts "Screen Name: #{@user.screen_name}"
     puts "Language: #{@user.language}"
-  # when 'followers'
-  #   puts @user.followers
+  when 'my followers'
+    puts @user.followers
+  when "who I'm following"
+    puts @user.following
   # when 'home timeline'
   #   puts @user.home_timeline
   end
